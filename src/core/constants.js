@@ -13,10 +13,17 @@ const ROLE = {
 	ROOT: "root",
 	USER: "user",
 };
+const USER_STATUS = {
+	DISABLED: "disabled",
+	ACTIVE: "active",
+	UNINITIALIZE: "uninitialize",
+};
 
 module.exports = {
 	ENV,
 	MORGAN_FORMAT,
 
 	ROLE,
+
+	USER_STATUS,
 };
