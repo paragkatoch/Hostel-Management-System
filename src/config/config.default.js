@@ -18,7 +18,7 @@ const defaultConfig = {
 	},
 	morgan: {
 		enabled: true,
-		format: constants.MORGAN_FORMAT_DEV,
+		format: constants.MORGAN_FORMAT.DEV,
 	},
 	mongo: {
 		uri: "This will be overriden by .env variable MONGO_URI",

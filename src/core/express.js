@@ -13,17 +13,17 @@ const app = express();
 
 // Logger
 if (config.morgan.enabled) {
-  app.use(morgan(config.morgan.format));
+	app.use(morgan(config.morgan.format));
 }
 
 // cors
 if (config.cors.enabled) {
-  app.use(cors(config.cors.options));
+	app.use(cors(config.cors.options));
 }
 
 // Secure app by setting various HTTP headers
 if (config.helmet.enabled) {
-  app.use(helmet(config.helmet.options));
+	app.use(helmet(config.helmet.options));
 }
 
 // Support parsing of application/x-www-form-urlencoded post data
@@ -35,25 +35,25 @@ app.use(routes);
 
 // Create 404 error and forward to error handler
 app.use((req, res, next) => {
-  next(createError(404, "Not Found"));
+	next(createError(404, "Not Found"));
 });
 
 // error handler
 // prints stack-trace during development
 // and send stack-trace to client
-if (config.env === constants.ENV_DEV) {
-  app.use((err, req, res) => {
-    console.log(chalk.red(`[DEV]`, err.stack));
-    res
-      .status(err.status || 400)
-      .json({ error: { message: err.message, details: err.stack } });
-  });
+if (config.env === constants.ENV.DEV) {
+	app.use((err, req, res) => {
+		console.log(chalk.red(`[DEV]`, err.stack));
+		res.status(err.status || 400).json({
+			error: { message: err.message, details: err.stack },
+		});
+	});
 }
 
 // error handler
 // no stack-trace to client
 app.use((err, req, res) => {
-  res.status(err.status || 400).json({ error: { message: err.message } });
+	res.status(err.status || 400).json({ error: { message: err.message } });
 });
 
 module.exports = app;

@@ -1,21 +1,22 @@
-const ENV_DEV = "development";
-const ENV_PROD = "production";
+const ENV = {
+	DEV: "development",
+	PROD: "production",
+};
 
-const MORGAN_FORMAT_COMBINED = "combined";
-const MORGAN_FORMAT_DEV = "dev";
+const MORGAN_FORMAT = {
+	COMBINED: "combined",
+	DEV: "dev",
+};
 
-const ROLE_ADMIN = "admin";
-const ROLE_ROOT = "root";
-const ROLE_USER = "user";
+const ROLE = {
+	ADMIN: "admin",
+	ROOT: "root",
+	USER: "user",
+};
 
 module.exports = {
-  ENV_DEV,
-  ENV_PROD,
+	ENV,
+	MORGAN_FORMAT,
 
-  MORGAN_FORMAT_COMBINED,
-  MORGAN_FORMAT_DEV,
-
-  ROLE_ADMIN,
-  ROLE_ROOT,
-  ROLE_USER,
+	ROLE,
 };

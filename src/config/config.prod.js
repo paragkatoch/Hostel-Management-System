@@ -11,7 +11,7 @@ let prodConfig = {
   },
   morgan: {
     enabled: true,
-    format: constants.MORGAN_FORMAT_COMBINED,
+    format: constants.MORGAN_FORMAT.COMBINED,
   },
   seed: {
     logging: true,
