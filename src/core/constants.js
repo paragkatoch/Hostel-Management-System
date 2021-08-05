@@ -18,6 +18,15 @@ const USER_STATUS = {
 	ACTIVE: "active",
 	UNINITIALIZE: "uninitialize",
 };
+const COMPLAINT_STATUS = {
+	NEW: "new",
+	WORKING: "working",
+	UNACCEPTED: "unaccepted",
+	ACCEPTED: "accepted",
+};
+
+const VOTE_INCREMENT = "increment";
+const VOTE_DECREMENT = "decrement";
 
 module.exports = {
 	ENV,
@@ -26,4 +35,8 @@ module.exports = {
 	ROLE,
 
 	USER_STATUS,
+	COMPLAINT_STATUS,
+
+	VOTE_DECREMENT,
+	VOTE_INCREMENT,
 };
