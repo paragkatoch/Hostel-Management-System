@@ -33,7 +33,35 @@ let devConfig = {
 	seed: {
 		logging: true,
 		users: [
-			// Todo: add users
+			{
+				userId: "root",
+				email: "root@tdev.app",
+				password: "password",
+				firstName: "Root",
+				lastName: "Account",
+				contactNumber: "1234567890",
+				status: constants.ACCOUNT_STATUS.ACTIVE,
+				role: constants.ROLE.ROOT,
+			},
+			{
+				userId: "admin",
+				email: "admin@tdev.app",
+				password: "password",
+				firstName: "Admin",
+				contactNumber: "1234567890",
+				lastName: "Account",
+				status: constants.ACCOUNT_STATUS.ACTIVE,
+				role: constants.ROLE.ADMIN,
+			},
+			{
+				userId: "user",
+				email: "user@tdev.app",
+				password: "password",
+				contactNumber: "1234567890",
+				firstName: "User",
+				lastName: "Account",
+				status: constants.ACCOUNT_STATUS.ACTIVE,
+			},
 		],
 	},
 };
