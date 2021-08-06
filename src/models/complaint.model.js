@@ -14,7 +14,7 @@ const complaintResponsesSchema = new mongoose.Schema({
 	// user who responded on the complaint
 	// contains _id of the user from the User collection
 	user: {
-		type: mongoose.SchemaType.ObjectId,
+		type: mongoose.SchemaTypes.ObjectId,
 		required: true,
 	},
 	createdAt: Date,
@@ -69,7 +69,7 @@ const complaintSchema = new mongoose.Schema({
 	// user who created the complaint
 	// contains user's _id from User collection
 	user: {
-		type: mongoose.SchemaType.ObjectId,
+		type: mongoose.SchemaTypes.ObjectId,
 		required: true,
 	},
 	createdAt: Date,

@@ -13,7 +13,7 @@ const ROLE = {
 	ROOT: "root",
 	USER: "user",
 };
-const USER_STATUS = {
+const ACCOUNT_STATUS = {
 	DISABLED: "disabled",
 	ACTIVE: "active",
 	UNINITIALIZE: "uninitialize",
@@ -34,7 +34,7 @@ module.exports = {
 
 	ROLE,
 
-	USER_STATUS,
+	ACCOUNT_STATUS,
 	COMPLAINT_STATUS,
 
 	VOTE_DECREMENT,

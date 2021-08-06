@@ -16,7 +16,7 @@ const announcementSchema = new mongoose.Schema({
 	// user who created the announcement
 	// contains user's _id from User collection
 	user: {
-		type: mongoose.SchemaType.ObjectId,
+		type: mongoose.SchemaTypes.ObjectId,
 		required: true,
 	},
 	createdAt: Date,

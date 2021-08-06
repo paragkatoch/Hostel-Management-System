@@ -6,14 +6,15 @@ require("../models");
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useUnifiedTopology", true);
+mongoose.set("useCreateIndex", true);
 
 mongoose.connect(config.mongo.uri);
 
 mongoose.connection.once("open", () => {
-  // seed.createUsers(config.seed.users);
-  console.log(chalk.green("[*] connected to the database"));
+	// seed.createUsers(config.seed.users);
+	console.log(chalk.green("[*] connected to the database"));
 });
 
 mongoose.connection.on("error", () => {
-  console.log(chalk.red("[-] Unable to connect to Mongo instance"));
+	console.log(chalk.red("[-] Unable to connect to Mongo instance"));
 });
