@@ -4,7 +4,7 @@
 	"description": "A hostel management system for Rustamji Institute of Technology",
 	"main": "app.js",
 	"scripts": {
-		"start": "clear && nodemon app.js",
+		"start": "nodemon app.js --exec \"clear && node\"",
 		"prepare": "husky install",
 		"dev": "nodemon app.js --exec \"eslint --quiet . && node\"",
 		"pretest": "eslint ./",
