@@ -6,19 +6,19 @@ const constants = require("../core/constants");
  * Configuration for Production environment
  */
 let prodConfig = {
-  cors: {
-    enabled: false,
-  },
-  morgan: {
-    enabled: true,
-    format: constants.MORGAN_FORMAT.COMBINED,
-  },
-  seed: {
-    logging: true,
-    users: [
-      // Todo: add users
-    ],
-  },
+	cors: {
+		enabled: false,
+	},
+	morgan: {
+		enabled: true,
+		format: constants.MORGAN_FORMAT.COMBINED,
+	},
+	seed: {
+		logging: true,
+		users: [
+			// Todo: add users
+		],
+	},
 };
 
 prodConfig = _.merge({}, defaultConfig, prodConfig);
