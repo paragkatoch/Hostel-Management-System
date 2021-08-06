@@ -22,18 +22,6 @@ const announcementSchema = new mongoose.Schema({
 	createdAt: Date,
 });
 
-/**
- * sets createdAt field
- *
- * @param {function} next
- */
-function setDate(next) {
-	const date = new Date();
-	this.updatedAt = date;
-	if (!this.createdAt) this.createdAt = date;
-	next();
-}
-
 announcementSchema.pre("save", function (next) {
 	if (!this.createdAt) this.createdAt = new Date();
 	next();

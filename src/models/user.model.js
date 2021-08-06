@@ -7,55 +7,64 @@ const config = require("../config");
 
 const userSchema = new mongoose.Schema({
 	// Personal info of the user
-	personalInfo: {
-		firstName: {
-			type: String,
-			required: [true, "firstname is required"],
-			trim: true,
-		},
-		lastName: {
-			type: String,
-			required: [true, "lastname is required"],
-			trim: true,
-		},
-		dob: Date,
-		contactNumber: Number,
-		email: {
-			type: String,
-			unique: true,
-			trim: true,
-			lowercase: true,
-			required: [true, "email is required"],
-			match: [
-				/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-				"Invalid email",
-			],
-		},
-		parentInfo: {
-			father: {
-				name: String,
-				contactNumber: Number,
-			},
-			mother: {
-				name: String,
-				contactNumber: Number,
-			},
-			guardian: {
-				name: String,
-				contactNumber: Number,
-			},
-			address: String,
-		},
-		college: {
-			degree: String,
-			year: Number,
-			branch: String,
-		},
-		hostel: {
+	userId: {
+		type: String,
+		required: [true, "userId is required"],
+		trim: true,
+		lowercase: true,
+		unique: true,
+	},
+	firstName: {
+		type: String,
+		required: [true, "firstname is required"],
+		trim: true,
+	},
+	lastName: {
+		type: String,
+		required: [true, "lastname is required"],
+		trim: true,
+	},
+	dob: Date,
+	contactNumber: {
+		type: Number,
+		trim: true,
+		required: [true, "contact number is required"],
+	},
+	email: {
+		type: String,
+		unique: true,
+		trim: true,
+		lowercase: true,
+		required: [true, "email is required"],
+		match: [
+			/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+			"Invalid email",
+		],
+	},
+	parentInfo: {
+		father: {
 			name: String,
-			floor: Number,
-			room: Number,
+			contactNumber: Number,
 		},
+		mother: {
+			name: String,
+			contactNumber: Number,
+		},
+		guardian: {
+			name: String,
+			contactNumber: Number,
+		},
+		address: String,
+	},
+	college: {
+		degree: String,
+		year: Number,
+		branch: String,
+	},
+	hostel: {
+		name: String,
+		floor: Number,
+		room: Number,
 	},
 
 	// hashedPassword - don't access directly,
