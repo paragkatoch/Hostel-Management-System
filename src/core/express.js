@@ -42,7 +42,6 @@ app.use((req, res, next) => {
 if (config.env === constants.ENV.DEV) {
 	// prints stack-trace during development
 	// and send stack-trace to client
-
 	app.use((err, req, res, next) => {
 		console.log(chalk.red(`[DEV]`, err.stack));
 		res.status(err.status || 400).json({
@@ -52,7 +51,6 @@ if (config.env === constants.ENV.DEV) {
 	});
 } else {
 	// no stack-trace to client
-
 	app.use((err, req, res, next) => {
 		res.status(err.status || 400).json({ error: { message: err.message } });
 		// Todo send mail to the owner

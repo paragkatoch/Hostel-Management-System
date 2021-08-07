@@ -34,7 +34,7 @@ let devConfig = {
 		logging: true,
 		users: [
 			{
-				userId: "root",
+				username: "root",
 				email: "root@tdev.app",
 				password: "password",
 				firstName: "Root",
@@ -44,7 +44,7 @@ let devConfig = {
 				role: constants.ROLE.ROOT,
 			},
 			{
-				userId: "admin",
+				username: "admin",
 				email: "admin@tdev.app",
 				password: "password",
 				firstName: "Admin",
@@ -54,9 +54,9 @@ let devConfig = {
 				role: constants.ROLE.ADMIN,
 			},
 			{
-				userId: "user",
+				username: "0902CS191001",
 				email: "user@tdev.app",
-				password: "password",
+				password: "0902CS191001",
 				contactNumber: "1234567890",
 				firstName: "User",
 				lastName: "Account",

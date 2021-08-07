@@ -21,20 +21,16 @@ const defaultConfig = {
 		format: constants.MORGAN_FORMAT.DEV,
 	},
 	mongo: {
-		uri: "This will be overriden by .env variable MONGO_URI",
+		uri: "This will be overridden by .env variable MONGO_URI",
 	},
 	seed: {
 		logging: true,
 		users: [],
 	},
 	server: {
-		port: 2606, // Can be overriden by .env variable PORT
+		port: 2606, // Can be overridden by .env variable PORT
 	},
 	token: {
-		purpose: {
-			auth: "authentication",
-			changePassword: "changepassword",
-		},
 		expire: {
 			authentication: "7d",
 			changepassword: "3h",

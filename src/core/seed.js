@@ -16,7 +16,7 @@ module.exports.seedUsers = async (users) => {
 				replaceOne: {
 					upsert: true,
 					filter: {
-						userId: userData.userId,
+						username: userData.username,
 					},
 					replacement: userData,
 				},
