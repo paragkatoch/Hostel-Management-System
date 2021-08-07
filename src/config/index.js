@@ -33,14 +33,17 @@ if (error) {
 	throw new Error(error.message);
 }
 
+const PRIV_KEY = JSON.parse(value.PRIV_KEY).replace(/\\n/g, "/n");
+const PUB_KEY = JSON.parse(process.env.PUB_KEY).replace(/\\n/g, "/n");
+
 const envConfig = {
 	env: value.NODE_ENV,
 	mongo: {
 		uri: value.MONGO_URI,
 	},
-	key: {
-		priv: value.PRIV_KEY,
-		pub: value.PUB_KEY,
+	keys: {
+		priv_key: PRIV_KEY,
+		pub_key: PUB_KEY,
 	},
 };
 
