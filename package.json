@@ -41,7 +41,8 @@
 		"jsonwebtoken": "^8.5.1",
 		"lodash": "^4.17.21",
 		"mongoose": "^5.13.4",
-		"morgan": "^1.10.0"
+		"morgan": "^1.10.0",
+		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
 		"eslint": "^7.32.0",

@@ -1,27 +1,27 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jsonwebtoken = require("jsonwebtoken");
+const { v4: uuidv4 } = require("uuid");
 
 const constants = require("../core/constants");
 const config = require("../config");
 
 const userSchema = new mongoose.Schema({
-	// Personal info of the user
-	userId: {
+	username: {
 		type: String,
-		required: [true, "userId is required"],
+		required: [true, "username is required"],
 		trim: true,
 		lowercase: true,
 		unique: true,
 	},
 	firstName: {
 		type: String,
-		required: [true, "firstname is required"],
+		required: [true, "firstName is required"],
 		trim: true,
 	},
 	lastName: {
 		type: String,
-		required: [true, "lastname is required"],
+		required: [true, "lastName is required"],
 		trim: true,
 	},
 	dob: Date,
@@ -68,7 +68,7 @@ const userSchema = new mongoose.Schema({
 	},
 
 	// hashedPassword - don't access directly,
-	// use setPasswordAsync and comparePasswordAsync to accessit
+	// use setPasswordAsync and comparePasswordAsync
 	hashedPassword: String,
 
 	// Role of the user
@@ -89,27 +89,55 @@ const userSchema = new mongoose.Schema({
 		attendance: { type: Boolean, default: false },
 	},
 
-	// status of user account, set by root and admin and changed to active on account creation
+	// status of user account, set by root and admin
+	// and changed to active on account creation
 	status: {
 		type: String,
 		enum: [
 			constants.ACCOUNT_STATUS.ACTIVE,
 			constants.ACCOUNT_STATUS.DISABLED,
-			constants.ACCOUNT_STATUS.UNINITIALIZE,
+			constants.ACCOUNT_STATUS.UNINITIALIZED,
 		],
-		default: constants.ACCOUNT_STATUS.UNINITIALIZE,
+		default: constants.ACCOUNT_STATUS.UNINITIALIZED,
 	},
 
-	// token for changePassword request
-	// do set directly, instead use settoken and cleartoken methods
+	// token is the single source of truth for jwt tokens
+	// if changed all jwt tokens will get invalid
+	// do change directly use setToken and clearToken methods
 	token: { type: String },
 });
 
 // Methods
 
 /**
+ * function to give unsensitive user data
+ *
+ * @param {Object} user user requesting for user's data
+ * @returns return user profile without sensitive info
+ * such as hashedPassword and token
+ */
+userSchema.methods.toJsonFor = function (user) {
+	const userObj = this.toObject();
+	let userData;
+
+	if (user && (user.hasPermission("user") || user._id === this._id)) {
+		const { hashedPassword, token, ...rest } = userObj;
+		userData = rest;
+	} else {
+		userData = {
+			id: userObj._id,
+			username: userObj.username,
+			firstName: userObj.firstName,
+			lastName: userObj.lastName,
+		};
+	}
+	return userData;
+};
+
+/**
  * Set password for the user
- * The password will be hashed and stored to the hashedPassword filed
+ * The password will be hashed and stored to
+ * the hashedPassword filed
  *
  * call this function for setting user's Password
  *
@@ -136,18 +164,20 @@ userSchema.methods.comparePasswordAsync = function (candidatePassword) {
 
 /**
  * Generate Jwt token for authorization or changepassword
+ * uses token field to generate new token
+ * use clearToken to invalidate all jwt tokens
  *
- * @param {String} purpose purpose for the creation of Jwt-token {authorization or changepassword}
- * @returns {String} A string conataining jwt token
+ * @param {String} purpose purpose for the creation
+ *  of Jwt-token {authorization or changepassword}
+ * @returns {String} A string containing jwt token
  */
-userSchema.methods.generateJwtToken = function (
-	purpose = config.token.purpose.auth
-) {
+userSchema.methods.generateJwtToken = function (purpose) {
 	const iat = Math.floor(Date.now() / 1000);
+	if (!this.token) throw new Error("token undefined");
 
 	const signedToken = jsonwebtoken.sign(
-		{ userId: this._id, purpose, iat },
-		config.key.priv,
+		{ userId: this._id, token: this.token, purpose, iat },
+		config.keys.priv_key,
 		{
 			expiresIn: config.token.expire[purpose],
 			algorithm: config.token.algorithm,
@@ -157,13 +187,10 @@ userSchema.methods.generateJwtToken = function (
 };
 
 /**
- * Generate a new jwt token for password change and set it to token field
- * call it for creating token
- * @returns {String} A string having token for changepassword
+ * set's new token
  */
 userSchema.methods.setToken = function () {
-	this.token = this.generateJwtToken(config.token.purpose.changePassword);
-	return this.token;
+	this.token = uuidv4();
 };
 
 /**
@@ -171,6 +198,21 @@ userSchema.methods.setToken = function () {
  */
 userSchema.methods.clearToken = function () {
 	this.token = undefined;
+};
+
+/**
+ * Determine whether this user has a permission
+ * based on user's role and permissions properties
+ *
+ * @param {string} permission A permission
+ * @returns {boolean} true if this user has the given permission.
+ * Otherwise, false
+ */
+userSchema.methods.hasPermission = function (permission) {
+	if (this.role === constants.ROLE.ROOT || this.role === constants.ROLE.ADMIN)
+		return true;
+
+	return this.permissions[permission];
 };
 
 mongoose.model("User", userSchema);
