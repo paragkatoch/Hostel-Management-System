@@ -4,9 +4,11 @@ const auth = require("../../controllers/auth.controller");
 const localAuthentication =
 	require("../../middleware/createAuthenticationMiddleware")("local");
 
+const jwtAuthentication =
+	require("../../middleware/createAuthenticationMiddleware")("jwt");
+
 // Todo allow login if has correct auth token
 // login
-// Todo: should check user and if everything ok then should return a jwt token
 router.post(
 	"/login",
 	auth.validateLoginPayload,
@@ -15,8 +17,7 @@ router.post(
 );
 
 // logout
-// Todo: remove jwt token of the user
-router.post("/logout");
+router.post("/logout", jwtAuthentication, auth.logout);
 
 // signup
 // Todo: should check the user if exists in db or already registered and then should return an appropriate response

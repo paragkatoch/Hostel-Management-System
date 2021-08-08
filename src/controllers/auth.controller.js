@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Joi = require("joi");
 const constants = require("../core/constants");
 
@@ -25,7 +26,7 @@ module.exports.validateLoginPayload = function (req, res, next) {
  * @function login
  * Response with userInfo
  */
-module.exports.login = function (req, res, next) {
+module.exports.login = function (req, res) {
 	if (!req.user.token) {
 		req.user.setToken();
 		req.user.save();
@@ -35,4 +36,10 @@ module.exports.login = function (req, res, next) {
 		token: req.user.generateJwtToken(constants.TOKEN_PURPOSE.AUTH),
 		user: req.user.toJsonFor(req.user),
 	});
+};
+
+module.exports.logout = function (req, res) {
+	req.user.clearToken();
+	req.user.save();
+	res.status(200).json({ status: "Logged out successfully" });
 };
