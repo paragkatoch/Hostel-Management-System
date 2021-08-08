@@ -3,7 +3,7 @@ const router = require("express").Router();
 // add announcement
 router.post("/");
 
-// get compalint
+// get complaint
 router.get("/");
 router.get("/:id");
 
