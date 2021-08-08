@@ -215,4 +215,10 @@ userSchema.methods.hasPermission = function (permission) {
 	return this.permissions[permission];
 };
 
+userSchema.methods.checkStatus = function (status) {
+	if (this.role === constants.ROLE.ROOT) return true;
+
+	return this.status === status;
+};
+
 mongoose.model("User", userSchema);

@@ -16,46 +16,56 @@ function localAuthentication(req, res, next) {
 			if (!user) next(createError(404, "User not found"));
 			const isMatched = await user.comparePasswordAsync(req.body.password);
 
-			if (!isMatched) return next(createError(403, "Incorrect password"));
-
-			if (user.status === constants.ACCOUNT_STATUS.DISABLED)
-				return next(403, "Account is disabled");
+			if (!isMatched) throw createError(403, "Incorrect password");
+			if (user.checkStatus(constants.ACCOUNT_STATUS.DISABLED))
+				throw createError(403, "Account is disabled");
 
 			req.user = user;
-			return next();
+			next();
 		})
 		.catch(next);
 }
 
-function verifyToken(token, next) {
-	if (!token || token.split(" ")[0] !== "Bearer") {
-		return next(createError(401, "Token not found"));
-	}
+function verifyToken(token) {
+	return new Promise((resolve, reject) => {
+		try {
+			if (!token || token.split(" ")[0] !== "Bearer")
+				throw createError(401, "Token not found");
 
-	return jsonwebtoken.verify(
-		token.split(" ")[1],
-		config.keys.pub_key,
-		{
-			algorithm: config.token.algorithm,
-		},
-		(err, payload) => {
-			if (err) return next(err);
-			return payload;
+			const payload = jsonwebtoken.verify(
+				token.split(" ")[1],
+				config.keys.pub_key,
+				{ algorithm: config.token.algorithm }
+			);
+
+			if (payload.purpose !== constants.TOKEN_PURPOSE.AUTH)
+				throw createError(401, "Invalid token");
+
+			resolve(payload);
+		} catch (err) {
+			reject(err);
 		}
-	);
+	});
 }
 
 function JwtAuthentication(req, res, next) {
-	const payload = verifyToken(req.headers.authorization, next);
+	verifyToken(req.headers.authorization)
+		.then((payload) =>
+			User.findOne({ _id: payload.userId, token: payload.token })
+		)
+		.then((user) => {
+			if (!user) throw createError(401, "Invalid token");
+			if (user.checkStatus(constants.ACCOUNT_STATUS.DISABLED))
+				throw createError(403, "Account is disabled");
 
-	User.findOne({ _id: payload.userId, token: payload.token }).then((user) => {
-		if (!user) return next(createError(401, "Invalid token"));
-		req.user = user;
-		return next();
-	});
+			req.user = user;
+			next();
+		})
+		.catch(next);
 }
 
 module.exports = function authenticationMiddleware(type) {
 	if (type === "local") return localAuthentication;
-	return JwtAuthentication;
+	else if (type === "jwt") return JwtAuthentication;
+	else throw new Error("invalid auth type");
 };
