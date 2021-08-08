@@ -20,8 +20,7 @@ router.post(
 router.post("/logout", jwtAuthentication, auth.logout);
 
 // signup
-// Todo: should check the user if exists in db or already registered and then should return an appropriate response
-router.post("/signup");
+router.post("/signup", auth.validateSignupPayload, auth.signup);
 
 // changepassword
 // Todo: verify the token
