@@ -20,6 +20,7 @@ const envVarsSchema = Joi.object({
 		.required(),
 	PRIV_KEY: Joi.string().required(),
 	PUB_KEY: Joi.string().required(),
+	ROOT_URI: Joi.string().uri().required(),
 }).unknown();
 
 // Validation
@@ -45,6 +46,7 @@ const envConfig = {
 		priv_key: PRIV_KEY,
 		pub_key: PUB_KEY,
 	},
+	uri: value.ROOT_URI,
 };
 
 // Final config
