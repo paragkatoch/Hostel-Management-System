@@ -7,6 +7,9 @@ const config = require("../config");
 const User = mongoose.model("User");
 const { ERROR_MESSAGES } = constants;
 
+/**
+ * JOI schema for validating login payload
+ */
 const loginSchema = Joi.object({
 	username: Joi.string()
 		.required()
@@ -15,6 +18,12 @@ const loginSchema = Joi.object({
 	password: Joi.string().required().min(8).messages(ERROR_MESSAGES.PASSWORD),
 });
 
+/**
+ * Validates login payload
+ *
+ * @param {String} req.body.username
+ * @param {String} req.body.password
+ */
 module.exports.validateLoginPayload = function (req, res, next) {
 	loginSchema
 		.validateAsync(req.body)
@@ -26,7 +35,6 @@ module.exports.validateLoginPayload = function (req, res, next) {
 };
 
 /**
- * @function login
  * Response with userInfo
  */
 module.exports.login = function (req, res) {
@@ -47,6 +55,9 @@ module.exports.logout = function (req, res) {
 	res.status(200).json({ status: "Logged out successfully" });
 };
 
+/**
+ * JOI schema for validating signup payload
+ */
 const signupSchema = Joi.object({
 	username: Joi.string()
 		.required()
@@ -54,6 +65,11 @@ const signupSchema = Joi.object({
 		.messages(ERROR_MESSAGES.USERNAME),
 });
 
+/**
+ * Validates signup payload
+ *
+ * @param {String} req.body.username
+ */
 module.exports.validateSignupPayload = function (req, res, next) {
 	signupSchema
 		.validateAsync(req.body)
@@ -64,6 +80,9 @@ module.exports.validateSignupPayload = function (req, res, next) {
 		.catch(next);
 };
 
+/**
+ * Responses with changepassword email
+ */
 module.exports.signup = function (req, res, next) {
 	User.findOne({ username: req.body.username }, "email status")
 		.then((user) => {

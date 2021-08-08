@@ -7,6 +7,13 @@ const constants = require("../core/constants");
 
 const User = mongoose.model("User");
 
+/**
+ * Authenticates user based on username, password and status
+ * adds user to req.user
+ *
+ * @param {String} req.body.username
+ * @param {String} req.body.password
+ */
 function localAuthentication(req, res, next) {
 	User.findOne({
 		username: req.body.username,
@@ -26,6 +33,13 @@ function localAuthentication(req, res, next) {
 		.catch(next);
 }
 
+/**
+ * Verify jwt token
+ *
+ * @param {String} token token to be verified
+ * @returns {Promise} a promise which
+ * resolves with token payload
+ */
 function verifyToken(token) {
 	return new Promise((resolve, reject) => {
 		try {
@@ -48,6 +62,12 @@ function verifyToken(token) {
 	});
 }
 
+/**
+ * Authenticates user based on bearer token and status
+ * adds user to req.user
+ *
+ * @param {String} req.headers.authorization
+ */
 function JwtAuthentication(req, res, next) {
 	verifyToken(req.headers.authorization)
 		.then((payload) =>
@@ -64,7 +84,13 @@ function JwtAuthentication(req, res, next) {
 		.catch(next);
 }
 
-module.exports = function authenticationMiddleware(type) {
+/**
+ * Creates authentication middleware
+ *
+ * @param {String} type type of authentication middleware required
+ * @returns authentication middleware based on type
+ */
+module.exports = function createAuthenticationMiddleware(type) {
 	if (type === "local") return localAuthentication;
 	else if (type === "jwt") return JwtAuthentication;
 	else throw new Error("invalid auth type");
