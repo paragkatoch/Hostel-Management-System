@@ -6,6 +6,9 @@ const constants = require("../core/constants");
  * Configuration for development environment
  */
 let devConfig = {
+	app: {
+		send_email: false,
+	},
 	cors: {
 		enabled: true,
 		options: {

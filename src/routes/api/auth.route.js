@@ -1,11 +1,10 @@
 const router = require("express").Router();
+
 const auth = require("../../controllers/auth.controller");
+const { createAuth } = require("../../middleware/createAuthMiddleware");
 
-const localAuthentication =
-	require("../../middleware/createAuthenticationMiddleware")("local");
-
-const jwtAuthentication =
-	require("../../middleware/createAuthenticationMiddleware")("jwt");
+const localAuthentication = createAuth("local");
+const jwtAuthentication = createAuth("jwt");
 
 // TODO allow login if has correct auth token
 // login
@@ -22,10 +21,9 @@ router.post("/logout", jwtAuthentication, auth.logout);
 // signup
 router.post("/signup", auth.validateSignupPayload, auth.signup);
 
+// check changepassword token
+router.get("/changepassword/:token", auth.changePasswordCheck);
 // changepassword
-// TODO: verify the token
-router.get("/changepassword/:token");
-// TODO: verify and change password
-router.post("/changepassword/:token");
+router.patch("/changepassword/:token", auth.changePassword);
 
 module.exports = router;

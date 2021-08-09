@@ -10,6 +10,7 @@ const defaultConfig = {
 		uri: "[OVERRIDDEN] uri for the frontend",
 		email: "[OVERRIDDEN] email of the app",
 		email_name: "[OVERRIDDEN] host name for the email",
+		send_email: false,
 	},
 	env: "[OVERRIDDEN] current environment",
 	keys: {

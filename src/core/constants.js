@@ -36,6 +36,9 @@ const ERROR_MESSAGES = {
 		"string.min": "Password must at least be 8 character",
 		"any.required": "Password is required",
 	},
+	CHANGE_PASSWORD: {
+		"any.only": "confirm-password does not match",
+	},
 };
 
 const TOKEN_PURPOSE = {

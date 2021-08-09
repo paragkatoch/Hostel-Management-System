@@ -37,10 +37,11 @@ function localAuthentication(req, res, next) {
  * Verify jwt token
  *
  * @param {String} token token to be verified
+ * @param {String} purpose purpose of the token
  * @returns {Promise} a promise which
  * resolves with token payload
  */
-function verifyToken(token) {
+module.exports.verifyToken = function (token, purpose) {
 	return new Promise((resolve, reject) => {
 		try {
 			if (!token || token.split(" ")[0] !== "Bearer")
@@ -52,15 +53,14 @@ function verifyToken(token) {
 				{ algorithm: config.token.algorithm }
 			);
 
-			if (payload.purpose !== constants.TOKEN_PURPOSE.AUTH)
-				throw createError(401, "Invalid token");
+			if (payload.purpose !== purpose) throw createError(401, "Invalid token");
 
 			resolve(payload);
 		} catch (err) {
 			reject(err);
 		}
 	});
-}
+};
 
 /**
  * Authenticates user based on bearer token and status
@@ -69,7 +69,8 @@ function verifyToken(token) {
  * @param {String} req.headers.authorization
  */
 function JwtAuthentication(req, res, next) {
-	verifyToken(req.headers.authorization)
+	exports
+		.verifyToken(req.headers.authorization, constants.TOKEN_PURPOSE.AUTH)
 		.then((payload) =>
 			User.findOne({ _id: payload.userId, token: payload.token })
 		)
@@ -90,7 +91,7 @@ function JwtAuthentication(req, res, next) {
  * @param {String} type type of authentication middleware required
  * @returns authentication middleware based on type
  */
-module.exports = function createAuthenticationMiddleware(type) {
+module.exports.createAuth = function (type) {
 	if (type === "local") return localAuthentication;
 	else if (type === "jwt") return JwtAuthentication;
 	else throw new Error("invalid auth type");

@@ -6,6 +6,9 @@ const constants = require("../core/constants");
  * Configuration for Production environment
  */
 let prodConfig = {
+	app: {
+		send_email: true,
+	},
 	cors: {
 		enabled: false,
 	},
