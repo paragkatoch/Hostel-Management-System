@@ -9,7 +9,7 @@ let devConfig = {
 	cors: {
 		enabled: true,
 		options: {
-			origin: [process.env.ORIGIN_URL, "http://localhost:3000"],
+			origin: [defaultConfig.app.uri, "http://localhost:3000"],
 			methods: "GET, POST, PATCH, DELETE",
 			allowedHeaders: ["Accept", "Content-Type", "Authorization"],
 			credentials: true,
@@ -61,6 +61,15 @@ let devConfig = {
 				firstName: "User",
 				lastName: "Account",
 				status: constants.ACCOUNT_STATUS.ACTIVE,
+			},
+			{
+				username: "0902CS191028",
+				email: "preidiot@gmail.com",
+				password: "12345678901234567890",
+				contactNumber: "9205535514",
+				firstName: "Parag",
+				lastName: "Katoch",
+				status: constants.ACCOUNT_STATUS.UNINITIALIZED,
 			},
 		],
 	},

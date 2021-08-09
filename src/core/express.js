@@ -53,7 +53,7 @@ if (config.env === constants.ENV.DEV) {
 	// no stack-trace to client
 	app.use((err, req, res, next) => {
 		res.status(err.status || 400).json({ error: { message: err.message } });
-		// Todo send mail to the owner
+		// TODO send mail to the owner
 		next();
 	});
 }

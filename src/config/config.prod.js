@@ -16,7 +16,7 @@ let prodConfig = {
 	seed: {
 		logging: true,
 		users: [
-			// Todo: add users
+			// TODO: add users
 		],
 	},
 };

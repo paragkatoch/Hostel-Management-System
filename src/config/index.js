@@ -21,6 +21,8 @@ const envVarsSchema = Joi.object({
 	PRIV_KEY: Joi.string().required(),
 	PUB_KEY: Joi.string().required(),
 	ROOT_URI: Joi.string().uri().required(),
+	SENDGRID_API_KEY: Joi.string().required(),
+	APP_EMAIL: Joi.string().email().required(),
 }).unknown();
 
 // Validation
@@ -45,8 +47,13 @@ const envConfig = {
 	keys: {
 		priv_key: PRIV_KEY,
 		pub_key: PUB_KEY,
+		sendGrid: value.SENDGRID_API_KEY,
 	},
-	uri: value.ROOT_URI,
+	app: {
+		uri: value.ROOT_URI,
+		email: value.APP_EMAIL,
+		email_name: value.APP_EMAIL_NAME,
+	},
 };
 
 // Final config

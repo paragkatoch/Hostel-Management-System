@@ -7,6 +7,15 @@ const defaultConfig = {
 	app: {
 		name: "hms",
 		title: "Hostel Management System",
+		uri: "[OVERRIDDEN] uri for the frontend",
+		email: "[OVERRIDDEN] email of the app",
+		email_name: "[OVERRIDDEN] host name for the email",
+	},
+	env: "[OVERRIDDEN] current environment",
+	keys: {
+		priv_key: "[OVERRIDDEN]",
+		pub_key: "[OVERRIDDEN]",
+		sendGrid: "[OVERRIDDEN]",
 	},
 	cors: {
 		enabled: true,
@@ -21,7 +30,7 @@ const defaultConfig = {
 		format: constants.MORGAN_FORMAT.DEV,
 	},
 	mongo: {
-		uri: "This will be overridden by .env variable MONGO_URI",
+		uri: "[OVERRIDDEN] Mongodb database uri",
 	},
 	seed: {
 		logging: true,
@@ -33,7 +42,7 @@ const defaultConfig = {
 	token: {
 		expire: {
 			authentication: "7d",
-			changepassword: "3h",
+			changePassword: "3h",
 		},
 		algorithm: "RS256",
 	},
