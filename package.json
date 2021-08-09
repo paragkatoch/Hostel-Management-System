@@ -30,6 +30,7 @@
 	},
 	"homepage": "https://github.com/preIdiot/Hostel-Management-System#readme",
 	"dependencies": {
+		"@sendgrid/mail": "^7.4.5",
 		"bcrypt": "^5.0.1",
 		"chalk": "^3.0.0",
 		"cors": "^2.8.5",
