@@ -3,6 +3,7 @@ const Joi = require("joi");
 const createError = require("http-errors");
 const constants = require("../core/constants");
 const config = require("../config");
+const { email, generateMsg } = require("../core/sendgrid");
 
 const User = mongoose.model("User");
 const { ERROR_MESSAGES } = constants;
@@ -98,9 +99,14 @@ module.exports.signup = function (req, res, next) {
 
 			return req.user.generateJwtToken(constants.TOKEN_PURPOSE.CHANGE_PASSWORD);
 		})
-		.then((token) => {
-			const url = `${config.uri}/changepassword/${token}`;
-			// Todo: send user an email with token
+		.then(async (token) => {
+			const url = `${config.app.uri}/changepassword/${token}`;
+			const msg = await generateMsg({
+				to: req.user.email,
+				subject: "Change password",
+				html: `Click <a href=${url}>here</a> to set password for your account`,
+			});
+			email.send(msg);
 		})
 		.then(() => {
 			res.status(201).json({ status: "email sent successfully" });

@@ -7,7 +7,7 @@ const localAuthentication =
 const jwtAuthentication =
 	require("../../middleware/createAuthenticationMiddleware")("jwt");
 
-// Todo allow login if has correct auth token
+// TODO allow login if has correct auth token
 // login
 router.post(
 	"/login",
@@ -23,9 +23,9 @@ router.post("/logout", jwtAuthentication, auth.logout);
 router.post("/signup", auth.validateSignupPayload, auth.signup);
 
 // changepassword
-// Todo: verify the token
+// TODO: verify the token
 router.get("/changepassword/:token");
-// Todo: verify and change password
+// TODO: verify and change password
 router.post("/changepassword/:token");
 
 module.exports = router;
